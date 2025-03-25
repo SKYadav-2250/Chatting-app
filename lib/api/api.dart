@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
+
 class Apis {
   static late ChatUser mySelf;
 
@@ -87,7 +89,7 @@ class Apis {
     ChatUser user,
   ) {
     return firestore
-        .collection('chats/${getConversationID(user.id.toString())}/messages/')
+        .collection('chats/${getConversationID(user.id.toString())}/messages/').orderBy('sent',descending: true)
         .snapshots();
   }
 
@@ -98,7 +100,7 @@ class Apis {
         : '${id}_${user.uid}';
   }
 
-  static Future<void> sendMessage(ChatUser chatuser, String msg) async {
+  static Future<void> sendMessage(ChatUser chatuser, String msg,MessageType   type) async {
     try {
       print('chevlig error111');
       final time = DateTime.now().millisecondsSinceEpoch.toString();
@@ -106,23 +108,62 @@ class Apis {
         toId: chatuser.id.toString(),
         msg: msg,
         read: '',
-        type: MessageType.text,
+        type: type,
         fromId: user.uid,
         sent: time,
       );
       print('checking lig error');
       final ref = firestore.collection(
         'chats/${getConversationID(chatuser.id.toString())}/messages',
-
       );
       print('checking  error');
 
-
       await ref.doc(time).set(message.toJson());
       print('checking  error');
-
     } catch (e) {
       print('error sending message : $e');
     }
   }
+
+  static Future<void> updateMessageReadStatus(Message message) async {
+    await firestore
+        .collection('chats/${getConversationID(message.fromId)}/messages')
+        .doc(message.sent)
+        .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(
+    ChatUser user,
+  ) {
+    return  firestore
+        .collection('chats/${getConversationID(user.id.toString())}/messages')
+        .orderBy('sent',descending: true)
+        .limit(1)
+        .snapshots();
+  }
+
+
+
+  static Future<void> sendChatImage( ChatUser chatUser , File file)async{
+
+
+
+      final images = file.path.split('.').last;
+    print('extention : $images');
+    final ref = firebaseStorage.ref().child(
+      'images/${getConversationID(chatUser.id.toString())}/${DateTime.fromMillisecondsSinceEpoch}.$images',
+    );
+    await ref
+        .putFile(file, SettableMetadata(contentType: 'image/$images'))
+        .then((onValue) {
+          print('Data Transfer : ${onValue.bytesTransferred / 1000} kb');
+        });
+    final imageUrl= await ref.getDownloadURL();
+    await sendMessage(chatUser, imageUrl, MessageType.image);
+
+  }
+
+
+
+
 }
