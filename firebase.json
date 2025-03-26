@@ -1,6 +1,3 @@
-The `firebase.json` file contains sensitive data such as `projectId`, `appId`, and other credentials. It is important to remove or obfuscate this information before sharing the file publicly. Here is a sanitized version of the file with sensitive data removed:
-
-```json
 {
   "flutter": {
     "platforms": {
@@ -17,6 +14,3 @@ The `firebase.json` file contains sensitive data such as `projectId`, `appId`, a
     }
   }
 }
-```
-
-Ensure that you replace other sensitive information within the file as well. If you need further assistance, please provide more details on the specific information you want to remove.
