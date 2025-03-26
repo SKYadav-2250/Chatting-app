@@ -43,3 +43,43 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Ignore flutter.json in the root directory
+flutter.json
+
+# Ignore google-services.json in the android/app directory
+android/app/google-services.json
+
+
+# Flutter/Dart specific
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+.dart_tool/
+.packages
+pubspec.lock 
+#  Optional, depending on team preference
+
+# Android specific
+android/.gradle/
+android/build/
+android/app/build/
+android/app/google-services.json 
+#  Firebase Android config
+
+# iOS specific
+ios/Pods/
+ios/Podfile.lock
+ios/Runner.xcworkspace/
+ios/Runner/GoogleService-Info.plist 
+#  Firebase iOS config
+
+# Environment files
+.env
+.env.*
+
+# Other
+build/
+*.log
+.DS_Store 
+#  macOS-specific

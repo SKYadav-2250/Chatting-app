@@ -5,6 +5,7 @@ import 'package:chatting_app/api/api.dart';
 import 'package:chatting_app/helper/dialog.dart';
 import 'package:chatting_app/models/chat_user.dart';
 import 'package:chatting_app/screens/auth_screen.dart/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chatting_app/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,10 +35,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             Dialogs.showProgressbar(context);
+            await Apis.updateOnlineStatus(false);
             await Apis.auth.signOut().then((value) async {
               await GoogleSignIn().signOut().then((value) {
                 Navigator.pop(context);
                 Navigator.pop(context);
+                Apis.auth = FirebaseAuth.instance;
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatting_app/api/api.dart';
@@ -8,9 +7,7 @@ import 'package:chatting_app/models/chat_user.dart';
 import 'package:chatting_app/models/message.dart';
 import 'package:chatting_app/screens/chat_screen.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:intl/intl.dart';
-// import 'package:chatting_app/api/api.dart';
+
 import 'package:flutter/material.dart';
 
 class ChatUserCard extends StatefulWidget {

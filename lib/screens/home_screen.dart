@@ -1,3 +1,6 @@
+// import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
+import 'dart:developer' as dev;
+
 import 'package:chatting_app/api/api.dart';
 import 'package:chatting_app/main.dart';
 import 'package:chatting_app/models/chat_user.dart';
@@ -7,6 +10,7 @@ import 'package:chatting_app/widgets/chat_user_card.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,6 +30,19 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Apis.getSelfInfo();
+    Apis.updateOnlineStatus(true);
+    SystemChannels.lifecycle.setMessageHandler((handler) {
+      dev.log('message: ${handler.toString()}');
+      if (Apis.auth.currentUser != null) {
+        if (handler.toString().contains('resume')) {
+          Apis.updateOnlineStatus(true);
+        }
+        if (handler.toString().contains('pause')) {
+          Apis.updateOnlineStatus(false);
+        }
+      }
+      return Future.value(handler);
+    });
   }
 
   @override
@@ -152,7 +169,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         return ChatUserCard(
                           user: _isSearch ? _searchList[index] : _list[index],
                         );
-                        // return Text('name ${list[index]}');
                       },
                     );
                   } else {
