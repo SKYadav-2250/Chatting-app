@@ -1,1 +1,22 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"flutter-project-55b71","appId":"1:734499076822:android:7c829cc23273776933e777","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"flutter-project-55b71","configurations":{"android":"1:734499076822:android:7c829cc23273776933e777","ios":"1:734499076822:ios:3fe4c22b1f01b00b33e777"}}}}}}
+The `firebase.json` file contains sensitive data such as `projectId`, `appId`, and other credentials. It is important to remove or obfuscate this information before sharing the file publicly. Here is a sanitized version of the file with sensitive data removed:
+
+```json
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "REDACTED",
+          "appId": "REDACTED",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        ...
+      }
+    }
+  }
+}
+```
+
+Ensure that you replace other sensitive information within the file as well. If you need further assistance, please provide more details on the specific information you want to remove.
