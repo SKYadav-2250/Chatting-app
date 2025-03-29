@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       if (newValue == null) {
                         return;
                       } else {
-                        Apis.mySelf.name = newValue;
+                        Apis.mySelf!.name = newValue;
                       }
                     },
                     validator: (value) {
@@ -170,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       if (newValue == null) {
                         return;
                       } else {
-                        Apis.mySelf.about = newValue;
+                        Apis.mySelf!.about = newValue;
                       }
                     },
                     validator: (value) {
@@ -200,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     if (_formkey.currentState!.validate()) {
                       _formkey.currentState!.save();
                       print('valid working');
-                      await Apis.updateuserData();
+                      await Apis.updateUserData();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('User Detail Updated Successfully'),

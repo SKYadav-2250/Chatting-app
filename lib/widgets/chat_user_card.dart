@@ -6,6 +6,7 @@ import 'package:chatting_app/main.dart';
 import 'package:chatting_app/models/chat_user.dart';
 import 'package:chatting_app/models/message.dart';
 import 'package:chatting_app/screens/chat_screen.dart';
+import 'package:chatting_app/widgets/dialog.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
@@ -52,22 +53,27 @@ class _ChatUserCardState extends State<ChatUserCard> {
 
             // if(data!=null)
             return ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(md.height * .3),
-
-                child: CachedNetworkImage(
-                  height: md.height * .055, // Increased size
-                  width: md.height * .055,
-                  fit: BoxFit.cover,
-                  imageUrl: widget.user.image ?? '',
-
-                  placeholder:
-                      (context, imageUrl) => const CircularProgressIndicator(),
-                  errorWidget:
-                      (context, url, error) => const CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        child: Icon(CupertinoIcons.add),
-                      ),
+              leading: InkWell(
+                onTap: (){
+                  showDialog(context: context, builder: (_)=>ProfileDialog(user: widget.user,));
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(md.height * .3),
+                
+                  child: CachedNetworkImage(
+                    height: md.height * .055, // Increased size
+                    width: md.height * .055,
+                    fit: BoxFit.cover,
+                    imageUrl: widget.user.image ?? '',
+                
+                    placeholder:
+                        (context, imageUrl) => const CircularProgressIndicator(),
+                    errorWidget:
+                        (context, url, error) => const CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          child: Icon(CupertinoIcons.add),
+                        ),
+                  ),
                 ),
               ),
 

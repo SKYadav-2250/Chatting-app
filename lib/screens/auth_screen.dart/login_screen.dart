@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       log('\nUserAdditinaldata:${user.additionalUserInfo}');
 
-      if (await Apis.userExist()) {
+      if (await Apis.userExists()) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

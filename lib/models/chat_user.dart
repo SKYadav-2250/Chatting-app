@@ -19,7 +19,7 @@ class ChatUser {
    late final String? lastActive;
    late final String? id;
    late final String? email;
-   late final String? pushToken;
+     String? pushToken;
 
     factory ChatUser.fromJson(Map<String, dynamic> json){ 
         return ChatUser(
@@ -31,7 +31,7 @@ class ChatUser {
             lastActive: json["lastActive"],
             id: json["id"],
             email: json["email"],
-            pushToken: json["push_token"],
+            pushToken: json["pushToken"],
         );
     }
 
@@ -44,7 +44,7 @@ class ChatUser {
         "lastActive": lastActive,
         "id": id,
         "email": email,
-        "push_token": pushToken,
+        "pushToken": pushToken,
     };
 
 }

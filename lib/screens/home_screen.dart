@@ -30,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Apis.getSelfInfo();
-    Apis.updateOnlineStatus(true);
+  
+
+  
     SystemChannels.lifecycle.setMessageHandler((handler) {
       dev.log('message: ${handler.toString()}');
       if (Apis.auth.currentUser != null) {
@@ -124,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => ProfileScreen(user: Apis.mySelf),
+                      builder: (context) => ProfileScreen(user: Apis.mySelf!),
                     ),
                   );
                 },
@@ -145,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           body: StreamBuilder(
-            stream: Apis.getAllusers(),
+            stream: Apis.getAllUsers(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:

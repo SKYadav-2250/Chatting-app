@@ -16,13 +16,12 @@ class MyDateUtil {
   static String getLastMessageTime({
     required BuildContext context,
     required String time,
+    bool showYear = false,
   }) {
+   
     final DateTime sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
 
     final DateTime now = DateTime.now();
-
-    log('now: $now');
-    log('now: $sent');
 
     if (now.day == sent.day &&
         now.month == sent.month &&
@@ -30,7 +29,9 @@ class MyDateUtil {
       return TimeOfDay.fromDateTime(sent).format(context);
     }
 
-    return '${sent.day} ${getMonth(time: sent)}';
+    return showYear
+        ? '${sent.day} ${getMonth(time: sent)} ${sent.year}'
+        : '${sent.day} ${getMonth(time: sent)}';
   }
 
   static String getMonth({
@@ -93,8 +94,4 @@ class MyDateUtil {
     String month = getMonth(time: lastActive);
     return 'Last Seen on ${lastActive.day} $month at $formattedTime';
   }
-
-
-
-
 }

@@ -22,66 +22,47 @@ migrate_working_dir/
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 #.vscode/
-
-# Flutter/Dart/Pub related
+# ==== Flutter/Dart ====
 **/doc/api/
-**/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.pub-cache/
-.pub/
-.build/
+.packages
+pubspec.lock
 
-# Symbolication related
+# ==== Build Artifacts ====
+/build/
+*.apk
+*.aab
+*.ipa
+*.dSYM.zip
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# ==== Android ====
+/android/**/build/
+/android/**/.gradle/
+/android/app/**/google-services.json
 
-# Ignore flutter.json in the root directory
-flutter.json
+# ==== iOS ====
+/ios/Pods/
+/ios/Runner.xcworkspace/
+/ios/Runner/GoogleService-Info.plist
 
-# Ignore google-services.json in the android/app directory
-android/app/google-services.json
+# ==== IDE ====
+.idea/
+*.iml
+.vscode/  # Uncomment if needed
 
-# Ignore firebase.json
-firebase.json
-
-# Flutter/Dart specific
-*.g.dart
-*.freezed.dart
-*.mocks.dart
-.dart_tool/
-.packages
-pubspec.lock 
-#  Optional, depending on team preference
-
-# Android specific
-android/.gradle/
-android/build/
-android/app/build/
-android/app/google-services.json 
-#  Firebase Android config
-
-# iOS specific
-ios/Pods/
-ios/Podfile.lock
-ios/Runner.xcworkspace/
-ios/Runner/GoogleService-Info.plist 
-#  Firebase iOS config
-
-# Environment files
+# ==== Environment ====
 .env
 .env.*
 
-# Other
-build/
+# ==== System ====
+.DS_Store
+Thumbs.db
 *.log
-.DS_Store 
-#  macOS-specific
+*.swp
+
+
+/firebase.json
