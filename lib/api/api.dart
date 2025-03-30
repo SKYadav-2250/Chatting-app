@@ -105,23 +105,39 @@ class Apis {
     String msg,
     chat_app_message.MessageType type,
   ) async {
-    final time = DateTime.now().millisecondsSinceEpoch.toString();
-    final message = chat_app_message.Message(
-      toId: chatuser.id.toString(),
-      msg: msg,
-      read: '',
-      type: type,
-      fromId: user!.uid,
-      sent: time,
-    );
-    final ref= await firestore
-        .collection(
-          'chats/${getConversationID(chatuser.id.toString())}/messages',
-        )
-        .doc(time)
-        .set(message.toJson()).then((value) =>
-        ApiNotification.sendNotification(
-          chatuser,message,msg,));
+    try {
+      final time = DateTime.now().millisecondsSinceEpoch.toString();
+      final message = chat_app_message.Message(
+        toId: chatuser.id.toString(),
+        msg: msg,
+        read: '',
+        type: type,
+        fromId: user!.uid,
+        sent: time,
+      );
+
+      final chatId = getConversationID(chatuser.id.toString());
+      final ref = firestore.collection('chats').doc(chatId);
+      await ref.set({
+        'participants': [user!.uid, chatuser.id],
+      }, SetOptions(merge: true));
+      await ref
+          .collection('messages')
+          .doc(time)
+          .set(message.toJson())
+          .then(
+            (value) => ApiNotification.sendNotification(
+              chatuser,
+              message,
+              message.type == chat_app_message.MessageType.text
+                  ? msg
+                  : ' Send an Image ',
+            ),
+          );
+    
+    } catch (e) {
+      developer.log('Error sending message: $e');
+    }
   }
 
   static Future<void> updateMessageReadStatus(
@@ -210,5 +226,34 @@ class Apis {
         developer.log('Token refreshed: $token');
       }
     });
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getChattedusers() {
+    final currentUserId = user!.uid.toString();
+
+    return firestore
+        .collection('chats')
+        .where('participants', arrayContains: currentUserId)
+        .snapshots()
+        .asyncMap((chatsnapshot) async {
+          final List<String> chattedUsers = [];
+          for (var chat in chatsnapshot.docs) {
+            String chatId = chat.id;
+
+            List<String> ids = chatId.split('_');
+            String otherUserId = ids.firstWhere((id) => id != currentUserId);
+            chattedUsers.add(otherUserId);
+          }
+
+          if (chattedUsers.isEmpty) {
+            return firestore.collection('users').limit(0).snapshots().first;
+          }
+
+          return await firestore
+              .collection('users')
+              .where('id', whereIn: chattedUsers)
+              .snapshots()
+              .first;
+        });
   }
 }

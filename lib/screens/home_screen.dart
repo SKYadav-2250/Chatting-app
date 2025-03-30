@@ -1,5 +1,6 @@
 // import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
 import 'dart:developer' as dev;
+// import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
 
 import 'package:chatting_app/api/api.dart';
 import 'package:chatting_app/main.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +24,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<ChatUser> _list = [];
+
+
+  
+Future<void> fetchData() async {
+  // Reference to the 'users' collection
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+  try {
+    // Fetch all documents in the collection
+    QuerySnapshot querySnapshot = await users.get();
+
+    // Iterate over the documents and access data
+    for (var doc in querySnapshot.docs) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      print('User Name: ${data['name']}');
+      print('User Email: ${data['email']}');
+      // Access other fields as needed
+    }
+  } catch (e) {
+    print('Error fetching data: $e');
+  }
+}
   final List<ChatUser> _searchList = [];
   bool _isSearch = false;
   final TextEditingController _searchController = TextEditingController();
@@ -29,7 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Apis.getSelfInfo();
+         Apis.getSelfInfo();
+
+    
+              dev.log( 'apis.getAllusers :  ${Apis.getAllUsers()}');
+
   
 
   
@@ -56,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPopInvokedWithResult: (didPop, result) {
           if (_isSearch) {
             setState(() {
+              dev.log( 'apis.getAllusers :  ${Apis.getAllUsers()}');
               _isSearch = false;
               _searchController.clear();
               _searchList.clear();
@@ -147,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           body: StreamBuilder(
-            stream: Apis.getAllUsers(),
+            stream:  _isSearch? Apis.getAllUsers():Apis.getChattedusers(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
