@@ -143,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.camera)),
+
               IconButton(
                 onPressed: () {
                   Navigator.of(context).push(
@@ -160,11 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               _addChatuserDialog();
-              // await Apis.auth.signOut();
-              // await GoogleSignIn().signOut();
-              // Navigator.of(context).pushReplacement(
-              // MaterialPageRoute(builder: (context) => LoginScreen()),
-              // );
             },
             child: const Icon(Icons.add),
           ),
@@ -172,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
           body: StreamBuilder(
             stream: Apis.getMyusersId(),
             builder: (context, snapshot) {
-              if (snapshot.data?.docs!=null) {
+              if (snapshot.data?.docs != null) {
                 dev.log('apis call is ${snapshot.data?.docs}');
                 // switch (snapshot.connectionState) {
                 //   case ConnectionState.waiting:
