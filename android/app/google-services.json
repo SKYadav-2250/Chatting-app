@@ -1,25 +1,25 @@
 {
   "project_info": {
-    "project_number": "34499076822",
-    "firebase_url": "https://flutter-project-5b71-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "flutter-project-5b71",
+    "project_number": "734499076822",
+    "firebase_url": "https://flutter-project-55b71-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "flutter-project-55b71",
     "storage_bucket": "flutter-project-55b71.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:34499076822:android:7c829cc23273776933e777",
+        "mobilesdk_app_id": "1:734499076822:android:7c829cc23273776933e777",
         "android_client_info": {
           "package_name": "com.example.chatting_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "34499076822-jht21n1i9nls2otjjphgp3q2r3hl0a5s.apps.googleusercontent.com",
+          "client_id": "734499076822-jht21n1i9nls2otjjphgp3q2r3hl0a5s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.chatting_app",
-            "certificate_hash": "c5493af1204e5f32c8414c7604bec3bb0314f77"
+            "certificate_hash": "3c5493af1204e5f32c8414c7604bec3bb0314f77"
           }
         },
         {
@@ -29,18 +29,18 @@
       ],
       "api_key": [
         {
-          "current_key": "IzaSyD8-s_1V_bxlMuomsJ8106uRGbOSW2Isu0"
+          "current_key": "AIzaSyD8-s_1V_bxlMuomsJ8106uRGbOSW2Isu0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "34499076822-afbj9atsd4q8rrdtt9i4oohmvk15e7an.apps.googleusercontent.com",
+              "client_id": "734499076822-afbj9atsd4q8rrdtt9i4oohmvk15e7an.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "34499076822-g4sb6s897bm23hgrqvo2rnm3ciik3dcm.apps.googleusercontent.com",
+              "client_id": "734499076822-g4sb6s897bm23hgrqvo2rnm3ciik3dcm.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.chattingApp"

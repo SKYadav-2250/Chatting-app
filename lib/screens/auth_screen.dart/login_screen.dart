@@ -82,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Dialogs.showSnackbar(
         context,
         'something went wrong check intrenet connection',
+        false,
       );
       Navigator.pop(context);
 

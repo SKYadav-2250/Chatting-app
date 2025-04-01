@@ -14,7 +14,6 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/foundation.dart' as foundation;
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -40,7 +39,6 @@ class _ChatScreenState extends State<ChatScreen> {
         FocusScope.of(context).unfocus();
         setState(() {
           if (_showEmoji) _showEmoji = false;
-          
         });
       },
       child: PopScope(
@@ -73,6 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 Expanded(
                   child: StreamBuilder(
+                    // initialData: ,
                     stream: Apis.getAllMessages(widget.user),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
@@ -173,24 +172,20 @@ class _ChatScreenState extends State<ChatScreen> {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ChatUserProfile(user: widget.user),
-          ),
+          MaterialPageRoute(builder: (_) => ChatUserProfile(user: widget.user)),
         );
       },
 
       child: StreamBuilder(
         stream: Apis.getUserInfo(widget.user),
         builder: (context, snapshot) {
-          
-
           final data = snapshot.data?.docs;
           final list =
               data?.map((e) => ChatUser.fromJson(e.data())).toList() ?? [];
 
-              for(var i in list){
-                log('list : ${i.name}');
-              }
+          for (var i in list) {
+            log('list : ${i.name}');
+          }
 
           return Row(
             children: [
@@ -337,19 +332,18 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   IconButton(
-                     onPressed: () async {
+                    onPressed: () async {
                       try {
                         final ImagePicker picker = ImagePicker();
-                       final XFile? image = await picker.pickImage(
-                        imageQuality: 50,
-                        source: ImageSource.camera);
+                        final XFile? image = await picker.pickImage(
+                          imageQuality: 50,
+                          source: ImageSource.camera,
+                        );
 
-                        if (image != null){
+                        if (image != null) {
                           setState(() {
                             _isUploading = true;
                           });
-
-                     
 
                           await Apis.sendChatImage(
                             widget.user,
@@ -359,8 +353,6 @@ class _ChatScreenState extends State<ChatScreen> {
                             _isUploading = false;
                           });
                         }
-                   
-                        
                       } catch (e) {
                         log('error sending image : $e');
                         setState(() {
@@ -385,12 +377,21 @@ class _ChatScreenState extends State<ChatScreen> {
           MaterialButton(
             onPressed: () {
               if (_textEditingController.text.isNotEmpty) {
-                Apis.sendMessage(
-                  widget.user,
-                  _textEditingController.text,
-                  MessageType.text,
-                );
-                _textEditingController.clear();
+                if (list.isEmpty) {
+                  Apis.sendFirstMessage(
+                    widget.user,
+                    _textEditingController.text,
+                    MessageType.text,
+                  );
+                  _textEditingController.clear();
+                } else {
+                  Apis.sendMessage(
+                    widget.user,
+                    _textEditingController.text,
+                    MessageType.text,
+                  );
+                  _textEditingController.clear();
+                }
               }
             },
             minWidth: 1,

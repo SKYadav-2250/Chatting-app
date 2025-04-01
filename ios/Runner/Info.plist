@@ -45,5 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+       <!-- permission for pic image fromgallery ortaking image from camera -->
+	<key>NSPhotoLibraryUsageDescription</key>
+
+	<!-- for storing image into gallery -->
+	<key>NSPhotoLibraryAddUsageDescription</key>
 </dict>
 </plist>

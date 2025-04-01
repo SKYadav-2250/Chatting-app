@@ -2,14 +2,14 @@
 import 'dart:developer';
 
 import 'package:chatting_app/screens/splash_screen.dart';
-// import 'package:chatting_app/screens/home_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_notification_channel/notification_importance.dart';
-import 'package:flutter_notification_channel/notification_visibility.dart';
+
 import 'firebase_options.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_notification_channel/flutter_notification_channel.dart';
 
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.red,
 
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+       
       ),
       home: SplashScreen(),
     );

@@ -1,6 +1,5 @@
 import 'dart:developer' as developer;
 import 'dart:io';
-import 'dart:math';
 import 'package:chatting_app/api/api_notification.dart';
 import 'package:chatting_app/models/chat_user.dart';
 import 'package:chatting_app/models/message.dart' as chat_app_message;
@@ -54,13 +53,6 @@ class Apis {
     );
     await firestore.collection('users').doc(user!.uid).set(newUser.toJson());
     developer.log('User created at: $time');
-  }
-
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
-    return firestore
-        .collection('users')
-        .where('id', isNotEqualTo: user?.uid)
-        .snapshots();
   }
 
   static Future<void> updateUserData() async {
@@ -134,7 +126,6 @@ class Apis {
                   : ' Send an Image ',
             ),
           );
-    
     } catch (e) {
       developer.log('Error sending message: $e');
     }
@@ -255,5 +246,80 @@ class Apis {
               .snapshots()
               .first;
         });
+  }
+
+  static Future<void> deleteMessage(chat_app_message.Message message) async {
+    developer.log("message ${message.msg}");
+    await firestore
+        .collection('chats/${getConversationID(message.toId)}/messages/')
+        .doc(message.sent)
+        .delete();
+
+    if (message.type == chat_app_message.MessageType.image) {
+      developer.log('message.msg  --  ${message.msg}');
+
+      await firebaseStorage.refFromURL(message.msg).delete();
+    }
+  }
+
+  static Future<void> updateMessage(
+    chat_app_message.Message message,
+    String updatedMsg,
+  ) async {
+    developer.log("message ${message.msg}");
+    await firestore
+        .collection('chats/${getConversationID(message.toId)}/messages/')
+        .doc(message.sent)
+        .update({'msg': updatedMsg});
+  }
+
+  static Future<bool> addchatuser(String email) async {
+    final data =
+        await firestore
+            .collection('users')
+            .where('email', isEqualTo: email)
+            .get();
+
+    if (data.docs.isNotEmpty) {
+      firestore
+          .collection('users')
+          .doc(user!.uid)
+          .collection('my-users')
+          .doc(data.docs.first.id)
+          .set({});
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers(
+    List<String?> userId,
+  ) {
+    if (userId.isNotEmpty) {
+      return firestore
+          .collection('users')
+          .where('id', whereIn: userId)
+          .snapshots();
+    } else {
+      return Stream.empty();
+    }
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyusersId() {
+    return firestore
+        .collection('users')
+        .doc(user!.uid)
+        .collection('my-users')
+        .snapshots();
+  }
+
+  static Future<void> sendFirstMessage(
+    ChatUser chatuser ,String msg , chat_app_message.MessageType type
+  ) async {
+    await firestore.collection('users')
+    .doc(chatuser.id).collection('my-users')
+    .doc(user!.uid).set({}).then((onValue)=>sendMessage(chatuser, msg, type));
   }
 }
