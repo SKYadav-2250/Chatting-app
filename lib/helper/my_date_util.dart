@@ -18,7 +18,6 @@ class MyDateUtil {
     required String time,
     bool showYear = false,
   }) {
-   
     final DateTime sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
 
     final DateTime now = DateTime.now();
@@ -32,6 +31,23 @@ class MyDateUtil {
     return showYear
         ? '${sent.day} ${getMonth(time: sent)} ${sent.year}'
         : '${sent.day} ${getMonth(time: sent)}';
+  }
+
+  static String getMessageTime({
+    required BuildContext context,
+    required String time,
+  }) {
+    log('getMessagetime time $time');
+    final DateTime sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+    log('getMessagetime time  after from millise $sent');
+
+    final DateTime now = DateTime.now();
+    final formattedTime = TimeOfDay.fromDateTime(sent).format(context);
+    // log('formatted date - $formattedTime');
+
+    return now.year == sent.year
+        ? '$formattedTime- ${sent.day} ${getMonth(time: sent)}'
+        : '${sent.day} ${getMonth(time: sent)}  ${sent.year}';
   }
 
   static String getMonth({
